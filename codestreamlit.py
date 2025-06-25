@@ -122,7 +122,7 @@ elif menu == 'Preprocess Data':
         if st.button('Preprocess Text'):
             with st.spinner('Preprocessing text...'):
                 # Apply preprocessing
-                data['cleaned_text'] = data['content'].apply(preprocess_text)
+                data['cleaned_text'] = data['content'].apply(clean_text)
                 
                 # Save to session state
                 st.session_state.processed_data = data
