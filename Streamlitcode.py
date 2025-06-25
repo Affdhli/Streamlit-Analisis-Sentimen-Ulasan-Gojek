@@ -141,7 +141,7 @@ elif menu == 'Train Model':
         
         # Train/test split
         from sklearn.model_selection import train_test_split
-        from sklearn.ensemble import RandomForestClassifier
+        from sklearn.ensemble import SVMClassifier
         from sklearn.metrics import classification_report
         
         # Fit TF-IDF
