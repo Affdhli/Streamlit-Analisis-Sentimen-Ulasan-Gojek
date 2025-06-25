@@ -126,7 +126,7 @@ elif menu == 'Preprocess Data':
 
         if 'processed_data' in st.session_state:
             st.subheader('Processed Data')
-            st.dataframe(st.session_state.processed_data[['columns_to_show']].head())
+            st.dataframe(st.session_state.processed_data[['clean_text','word_tokenize', 'remove_stopwords', 'stem_text']].head())
 
 elif menu == 'Train Model':
     st.header('Train Sentiment Model')
