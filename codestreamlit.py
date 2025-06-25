@@ -208,7 +208,7 @@ elif menu == 'Predict Sentiment':
         if st.button('Analyze Sentiment'):
             if review_input:
                 # Preprocess
-                processed = preprocess_text(review_input)
+                processed = clean_text(review_input)
                 
                 # Vectorize
                 vectorized = tfidf_vectorizer.transform([processed])
