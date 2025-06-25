@@ -24,7 +24,7 @@ st.write("This app analyzes sentiment from Gojek app reviews on Google Play Stor
 # Sidebar for user inputs
 with st.sidebar:
     st.header("Configuration")
-    num_reviews = st.slider("Number of reviews to fetch", 100, 10000, 1000, 100)
+    num_reviews = st.slider("Number of reviews to fetch", 100, 8000, 1000, 100)
     analyze_button = st.button("Analyze Reviews")
 
 # Initialize stemmer
