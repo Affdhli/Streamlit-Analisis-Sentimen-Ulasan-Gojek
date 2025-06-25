@@ -1,9 +1,7 @@
-pip install -r requirements.txt
-streamlit run Streamlitcode.py
 import streamlit as st
 import pandas as pd
 import numpy as np
-import joblib
+
 import re
 import nltk
 from nltk.tokenize import word_tokenize
