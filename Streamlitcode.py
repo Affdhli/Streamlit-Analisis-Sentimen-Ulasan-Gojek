@@ -35,11 +35,11 @@ def stem_text(tokens):
 
 def preprocess_text(text):
     # Clean text
-    cleaned = clean_text(text)
+    cleaned = clean_text(Clean)
     # Tokenize
-    tokens = word_tokenize(cleaned)
+    tokens = word_tokenize(Tokens)
     # Remove stopwords
-    filtered = remove_stopwords(tokens)
+    filtered = remove_stopwords(stopword)
     # Stemming
     stemmed = stem_text(filtered)
     return ' '.join(stemmed)
@@ -126,7 +126,7 @@ elif menu == 'Preprocess Data':
 
         if 'processed_data' in st.session_state:
             st.subheader('Processed Data')
-            st.dataframe(st.session_state.processed_data[['clean_text','word_tokenize', 'remove_stopwords', 'stem_text']].head())
+            st.dataframe(st.session_state.processed_data[['content', 'Clean','Tokens', 'stopword', 'filtered']].head())
 
 elif menu == 'Train Model':
     st.header('Train Sentiment Model')
