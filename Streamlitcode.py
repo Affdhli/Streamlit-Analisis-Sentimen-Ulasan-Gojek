@@ -118,28 +118,7 @@ elif menu == 'Preprocess Data':
         if st.button('Preprocess Text'):
             with st.spinner('Preprocessing text...'):
                 # Apply preprocessing
-                     if st.button("Preprocess Text"):
-        with st.spinner("Memproses text..."):
-            try:
-                # Tambahkan progress bar
-                progress_bar = st.progress(0)
-                
-                # Preprocessing dengan progress update
-                total_rows = len(data)
-                cleaned_texts = []
-                
-                for i, text in enumerate(data['content']):
-                    cleaned_texts.append(preprocess_text(text))
-                    progress_bar.progress((i + 1) / total_rows)
-                
-                data['cleaned_text'] = cleaned_texts
-                
-                # Simpan ke session state
-                st.session_state.processed_data = data
-                st.success("Preprocessing selesai!")
-                
-                # Tampilkan sample
-                st.dataframe(data[['content', 'cleaned_text']].head())
+                data['cleaned_review'] = data['content'].apply(clean_text)
                 
                 # Save to session state
                 st.session_state.processed_data = data
