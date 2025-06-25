@@ -86,7 +86,7 @@ elif menu == 'Scrape Reviews':
                 lang='id',
                 country='id',
                 sort=Sort.MOST_RELEVANT,
-                count=100,  # Reduced for demo purposes
+                count=8000,  # Reduced for demo purposes
                 filter_score_with=None
             )
             
