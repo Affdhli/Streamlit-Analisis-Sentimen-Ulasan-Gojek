@@ -94,7 +94,7 @@ elif menu == 'Scrape Reviews':
             data = data.join(pd.DataFrame(data.pop('review').tolist()))
             
             # Keep only content and score columns
-            data = data[['content', 'score']]
+            data = data[['content']]
             
             # Save to session state
             st.session_state.reviews_data = data
@@ -126,7 +126,7 @@ elif menu == 'Preprocess Data':
 
         if 'processed_data' in st.session_state:
             st.subheader('Processed Data')
-            st.dataframe(st.session_state.processed_data['content', 'cleaned_text', 'score'].head())
+            st.dataframe(st.session_state.processed_data[['content', 'cleaned_text']].head())
 
 elif menu == 'Train Model':
     st.header('Train Sentiment Model')
