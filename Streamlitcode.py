@@ -127,8 +127,6 @@ elif menu == 'Preprocess Data':
         if 'processed_data' in st.session_state:
             st.subheader('Processed Data')
             st.dataframe(st.session_state.processed_data[['content', 'cleaned_text', 'score']].head())
-        else:
-            st.warning("Data belum diproses. Silakan lakukan preprocessing terlebih dahulu.")
 
 elif menu == 'Train Model':
     st.header('Train Sentiment Model')
