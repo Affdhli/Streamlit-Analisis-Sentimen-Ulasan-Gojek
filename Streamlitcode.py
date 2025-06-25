@@ -123,33 +123,11 @@ elif menu == 'Preprocess Data':
                 # Save to session state
                 st.session_state.processed_data = data
                 st.success("Text preprocessing completed!")
-        
-        def show_processed_data():
-            st.header("Data Hasil Preprocessing")
-            
-            if 'processed_data' not in st.session_state:
-                st.warning("Data belum diproses. Silakan lakukan preprocessing terlebih dahulu.")
-                return
-    
-                try:
-                    # Daftar kolom yang ingin ditampilkan
-                    desired_columns = ['content', 'cleaned_text', 'score']
-        
-                    # Filter hanya kolom yang ada
-                    available_columns = [col for col in desired_columns 
-                                       if col in st.session_state.processed_data.columns]
-        
-                    if not available_columns:
-                        st.error("Tidak ada kolom yang valid untuk ditampilkan")
-                        return
-        
-                    # Tampilkan data dengan kolom yang tersedia
-                    st.dataframe(
-                        st.session_state.processed_data[available_columns].head(),
-                        use_container_width=True,
-                        height=200
-                        )
-    
+
+        if 'processed_data' in st.session_state:
+            st.subheader('Processed Data')
+            st.dataframe(st.session_state.processed_data[['content', 'cleaned_text', 'score']].head())
+
 elif menu == 'Train Model':
     st.header('Train Sentiment Model')
     
