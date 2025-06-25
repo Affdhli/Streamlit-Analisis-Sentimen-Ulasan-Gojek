@@ -118,7 +118,12 @@ elif menu == 'Preprocess Data':
         if st.button('Preprocess Text'):
             with st.spinner('Preprocessing text...'):
                 # Apply preprocessing
-                st.dataframe(data['content', 'cleaned_text'].head())
+                 if 'content' in data.columns:
+        data['cleaned_text'] = data['content'].apply(lambda x: preprocess_text(x) if pd.notna(x) else "")
+    else:
+        print("Kolom 'content' tidak ditemukan dalam DataFrame")
+except Exception as e:
+    print(f"Terjadi error: {str(e)}")
                 
                 # Save to session state
                 st.session_state.processed_data = data
