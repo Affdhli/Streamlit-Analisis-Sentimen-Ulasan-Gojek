@@ -118,9 +118,7 @@ elif menu == 'Preprocess Data':
         if st.button('Preprocess Text'):
             with st.spinner('Preprocessing text...'):
                 # Apply preprocessing
-                st.dataframe(data[['content', 'cleaned_text']].head())
-                except Exception as e:
-                st.error(f"Terjadi error saat preprocessing: {str(e)}")
+                st.dataframe(data['content', 'cleaned_text'].head())
                 
                 # Save to session state
                 st.session_state.processed_data = data
