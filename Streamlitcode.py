@@ -149,12 +149,7 @@ elif menu == 'Preprocess Data':
                         use_container_width=True,
                         height=200
                         )
-        
-                # Tampilkan informasi tambahan
-                st.caption(f"Menampilkan {len(available_columns)} dari {len(desired_columns)} kolom yang diminta")
-        
-                except Exception as e:
-                    st.error(f"Terjadi kesalahan saat menampilkan data: {str(e)}")
+    
 elif menu == 'Train Model':
     st.header('Train Sentiment Model')
     
