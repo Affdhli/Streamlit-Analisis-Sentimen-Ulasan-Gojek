@@ -7,3 +7,4 @@ joblib
 scikit-learn
 nltk
 sastrawi
+from google_play_scraper import Sort, reviews
