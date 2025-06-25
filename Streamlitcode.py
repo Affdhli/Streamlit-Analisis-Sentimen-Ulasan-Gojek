@@ -35,11 +35,11 @@ def stem_text(tokens):
 
 def preprocess_text(text):
     # Clean text
-    cleaned = clean_text(Clean)
+    cleaned = clean_text(text)
     # Tokenize
-    tokens = word_tokenize(Tokens)
+    tokens = word_tokenize(cleaned)
     # Remove stopwords
-    filtered = remove_stopwords(stopword)
+    filtered = remove_stopwords(tokens)
     # Stemming
     stemmed = stem_text(filtered)
     return ' '.join(stemmed)
