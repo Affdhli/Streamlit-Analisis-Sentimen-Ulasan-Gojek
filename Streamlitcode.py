@@ -118,7 +118,7 @@ elif menu == 'Preprocess Data':
         if st.button('Preprocess Text'):
             with st.spinner('Preprocessing text...'):
                 # Apply preprocessing
-                data['cleaned_text'] = data['content'].apply(lambda x: preprocess_text(x) if pd.notna(x) 
+                st.dataframe(data[['content', 'cleaned_text']].head())
                 
                 # Save to session state
                 st.session_state.processed_data = data
