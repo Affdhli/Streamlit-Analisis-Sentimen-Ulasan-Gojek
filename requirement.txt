@@ -3,7 +3,7 @@ streamlit
 seaborn
 matplotlib
 pandas
-joblib==1.6.1
+joblib
 scikit-learn
 re
 nltk
