@@ -101,7 +101,7 @@ elif options == "Preprocessing":
     # Add preprocessing steps to the DataFrame
     data['cleaned'] = data['content'].apply(clean_text)
     data['case_folded'] = data['cleaned'].apply(case_fold)
-    data['tokens'] = data['case_folded'].apply(word_tokenize)
+    data['tokens'] = data['cleaned'].apply(word_tokenize)
     data['filtered_tokens'] = data['tokens'].apply(remove_stopwords)
     data['stemmed_tokens'] = data['filtered_tokens'].apply(stem_text)
     data['processed_text'] = data['stemmed_tokens'].apply(lambda x: ' '.join(x))
