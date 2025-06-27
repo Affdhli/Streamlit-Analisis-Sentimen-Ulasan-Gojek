@@ -123,6 +123,8 @@ elif menu == 'Preprocess Data':
             with st.spinner('Preprocessing text...'):
                 # Apply preprocessing
                 data['cleaned_text'] = data['content'].apply(clean_text)
+                data['remove_stopwords'] = data['cleaned_text'].apply(remove_stopwords)
+                data['stem_text'] = data['remove_stopwords'].apply(stem_text)
                 
                 # Save to session state
                 st.session_state.processed_data = data
@@ -130,7 +132,7 @@ elif menu == 'Preprocess Data':
 
         if 'processed_data' in st.session_state:
             st.subheader('Processed Data')
-            st.dataframe(st.session_state.processed_data[['content', 'cleaned_text', 'score']].head())
+            st.dataframe(st.session_state.processed_data[['content', 'cleaned_text', 'remove_stopwords', 'stem_text']].head())
 
 elif menu == 'Train Model':
     st.header('Train Sentiment Model (SVM)')
