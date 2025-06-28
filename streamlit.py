@@ -75,7 +75,7 @@ if app_mode == "Scraping Data":
                 )
                 
                 data = pd.DataFrame(np.array(result), columns=['review'])
-                data = data.join(pd.DataFrame(data.pop('review').tolist())
+                data = data.join(pd.DataFrame(data.pop('review').tolist()))
                 data = data[['content', 'score']]
                 
                 # Labeling (tanpa netral)
