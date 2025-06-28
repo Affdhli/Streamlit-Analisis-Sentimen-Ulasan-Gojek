@@ -120,7 +120,7 @@ elif app_mode == "Preprocessing":
                     if 'content' not in data.columns:
                         raise ValueError("Kolom 'content' tidak ditemukan dalam data")
                     
-                    data['cleaned_text'] = data['content'].apply(lambda x: clean_text(str(x)) if 'content' in data.columns else None
+                    data['cleaned_text'] = data['content'].apply(lambda x: clean_text(str(x))) if 'content' in data.columns else None
                     
                     # Case folding - pastikan kolom sudah dibuat
                     if 'cleaned_text' not in data.columns:
