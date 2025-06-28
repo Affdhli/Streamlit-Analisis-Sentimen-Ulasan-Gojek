@@ -276,7 +276,7 @@ def main():
                     
                     with st.expander("Detail Preprocessing"):
                         st.write("**Teks asli:**", text_input)
-                        st.write("**Setelah cleaning:**", re.sub(r'[^\w\s]', '', str(text_input).lower())
+                        st.write("**Setelah cleaning:**", re.sub(r'[^\w\s]', '', str(text_input).lower()))
                         st.write("**Setelah stopword removal & stemming:**", processed_text)
                 
                 except Exception as e:
