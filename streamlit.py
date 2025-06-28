@@ -18,7 +18,6 @@ import seaborn as sns
 # Download NLTK resources
 nltk.download('punkt')
 nltk.download('stopwords')
-nltk.download('tokenize')
 
 # Set page config
 st.set_page_config(page_title="Analisis Sentimen Gojek", layout="wide")
@@ -61,7 +60,7 @@ if app_mode == "Scraping Data":
     Masukkan parameter di bawah ini untuk memulai proses scraping.
     """)
     
-    count = st.number_input("Jumlah Ulasan yang Akan Diambil", min_value=100, max_value=10000, value=1000)
+    count = st.number_input("Jumlah Ulasan yang Akan Diambil", min_value=100, max_value=8000, value=1000)
     
     if st.button("Mulai Scraping"):
         with st.spinner('Sedang melakukan scraping...'):
@@ -123,7 +122,7 @@ elif app_mode == "Preprocessing":
                 data['case_folded'] = data['cleaned_text'].str.lower()
                 
                 # Tokenisasi
-                data['tokens'] = data['case_folded'].apply(word_tokenize)
+                data['tokens'] = data['case_folded'].apply(case_folded)
                 
                 # Stopword removal
                 data['filtered_tokens'] = data['tokens'].apply(remove_stopwords)
