@@ -48,7 +48,7 @@ def scrape_gojek_reviews(count=8000):
         lang='id',
         country='id',
         sort=Sort.MOST_RELEVANT,
-        count=count,
+        count=8000,
         filter_score_with=None
     )
     return pd.DataFrame(result)
