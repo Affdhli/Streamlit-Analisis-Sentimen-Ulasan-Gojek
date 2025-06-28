@@ -75,30 +75,26 @@ if app_mode == "Scraping Data":
                 )
                 
                 data = pd.DataFrame(np.array(result), columns=['review'])
-                data = data.join(pd.DataFrame(data.pop('review').tolist()))
+                data = data.join(pd.DataFrame(data.pop('review').tolist())
                 data = data[['content', 'score']]
                 
-                # Labeling
+                # Labeling (tanpa netral)
                 def label_sentiment(score):
-                    if score >= 4:
-                        return 'positif'
-                    elif score == 3:
-                        return 'netral'
-                    else:
-                        return 'negatif'
+                    return 'positif' if score >= 4 else 'negatif'
                 
                 data['label'] = data['score'].apply(label_sentiment)
-                data = data[data['label'] != 'netral']
                 
                 st.session_state.data = data
                 
-                st.success(f"Berhasil mengambil {len(data)} ulasan!")
+                st.success(f"Berhasil mengambil {len(data)} ulasan (hanya positif dan negatif)!")
                 st.dataframe(data.head())
                 
                 # Visualisasi distribusi label
                 fig, ax = plt.subplots()
-                data['label'].value_counts().plot(kind='bar', ax=ax)
-                ax.set_title('Distribusi Sentimen')
+                data['label'].value_counts().plot(kind='bar', ax=ax, color=['green', 'red'])
+                ax.set_title('Distribusi Sentimen (Biner)')
+                ax.set_xlabel('Sentimen')
+                ax.set_ylabel('Jumlah Ulasan')
                 st.pyplot(fig)
                 
             except Exception as e:
@@ -114,6 +110,7 @@ elif app_mode == "Preprocessing":
         data = st.session_state.data.copy()
         
         st.write("### Data Mentah")
+        st.write(f"Jumlah data: {len(data)} (Positif: {len(data[data['label']=='positif'])}, Negatif: {len(data[data['label']=='negatif'])})")
         st.dataframe(data.head())
         
         if st.button("Mulai Preprocessing"):
@@ -172,12 +169,15 @@ elif app_mode == "Preprocessing":
 
 # Halaman Training Model
 elif app_mode == "Training Model":
-    st.title("Training Model SVM")
+    st.title("Training Model SVM (Biner)")
     
     if st.session_state.data is None:
         st.warning("Silakan lakukan scraping dan preprocessing data terlebih dahulu")
     else:
         data = st.session_state.data.copy()
+        
+        st.write("### Distribusi Label")
+        st.write(data['label'].value_counts())
         
         st.write("### Parameter Model")
         max_features = st.number_input("Jumlah Maksimal Fitur TF-IDF", min_value=100, max_value=5000, value=3000)
@@ -236,10 +236,11 @@ elif app_mode == "Training Model":
                     cm = confusion_matrix(y_test, y_test_pred)
                     fig, ax = plt.subplots()
                     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
-                                xticklabels=['negatif', 'positif'], 
-                                yticklabels=['negatif', 'positif'], ax=ax)
+                              xticklabels=['negatif', 'positif'], 
+                              yticklabels=['negatif', 'positif'], ax=ax)
                     ax.set_xlabel('Predicted')
                     ax.set_ylabel('Actual')
+                    ax.set_title('Confusion Matrix (Biner)')
                     st.pyplot(fig)
                     
                 except Exception as e:
@@ -247,7 +248,7 @@ elif app_mode == "Training Model":
 
 # Halaman Prediksi Teks
 elif app_mode == "Prediksi Teks":
-    st.title("Prediksi Sentimen Teks")
+    st.title("Prediksi Sentimen Teks (Biner)")
     
     if st.session_state.model is None or st.session_state.vectorizer is None:
         st.warning("Silakan latih model terlebih dahulu di menu Training Model")
@@ -286,28 +287,21 @@ elif app_mode == "Prediksi Teks":
                     col1, col2 = st.columns(2)
                     
                     with col1:
-                        st.metric("Sentimen Prediksi", prediction.capitalize())
+                        if prediction == 'positif':
+                            st.success(f"Sentimen: {prediction.capitalize()}")
+                        else:
+                            st.error(f"Sentimen: {prediction.capitalize()}")
                     
                     with col2:
                         st.metric("Probabilitas", 
-                                f"Positif: {probability[1]:.2%}\nNegatif: {probability[0]:.2%}")
+                                 f"Positif: {probability[1]:.2%}\nNegatif: {probability[0]:.2%}")
                     
-                    # Tampilkan tahapan preprocessing
-                    st.write("### Detail Preprocessing")
-                    st.write("**Teks Asli:**")
-                    st.write(input_text)
-                    
-                    st.write("**Setelah Cleaning:**")
-                    st.write(cleaned_text)
-                    
-                    st.write("**Tokenisasi:**")
-                    st.write(tokens)
-                    
-                    st.write("**Setelah Stopword Removal:**")
-                    st.write(filtered_tokens)
-                    
-                    st.write("**Setelah Stemming:**")
-                    st.write(stemmed_tokens)
+                    # Visualisasi probabilitas
+                    fig, ax = plt.subplots()
+                    ax.bar(['Negatif', 'Positif'], probability, color=['red', 'green'])
+                    ax.set_title('Probabilitas Sentimen')
+                    ax.set_ylim(0, 1)
+                    st.pyplot(fig)
                     
                 except Exception as e:
                     st.error(f"Terjadi error: {str(e)}")
@@ -315,10 +309,11 @@ elif app_mode == "Prediksi Teks":
 # Informasi tambahan
 st.sidebar.markdown("---")
 st.sidebar.info("""
-Aplikasi Analisis Sentimen Ulasan Gojek\n
+Aplikasi Analisis Sentimen Ulasan Gojek (Biner)\n
+Hanya klasifikasi Positif/Negatif\n
 Menggunakan:
 - Scraping data dari Google Play Store
-- Preprocessing text (cleaning, tokenisasi, stopword removal, stemming)
+- Preprocessing text
 - Ekstraksi fitur TF-IDF
 - Klasifikasi dengan SVM
 """)
