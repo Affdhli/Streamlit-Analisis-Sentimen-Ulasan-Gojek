@@ -8,3 +8,4 @@ joblib
 scikit-learn
 sastrawi
 google-play-scraper
+tokens
