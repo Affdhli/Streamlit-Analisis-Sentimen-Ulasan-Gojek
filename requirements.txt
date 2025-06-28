@@ -1,3 +1,4 @@
+nltk
 numpy
 streamlit
 seaborn
@@ -5,6 +6,5 @@ matplotlib
 pandas
 joblib
 scikit-learn
-nltk
 sastrawi
 google-play-scraper
