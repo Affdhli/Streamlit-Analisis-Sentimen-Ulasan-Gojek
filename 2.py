@@ -74,7 +74,7 @@ def main():
     
     # Sidebar
     st.sidebar.header("Pengaturan")
-    sample_size = st.sidebar.slider("Jumlah data", 1000, 10000, 8000, 1000)
+    sample_size = st.sidebar.slider("Jumlah data", 1000, 8000, 1000)
     
     tab1, tab2, tab3 = st.tabs(["Scraping Data", "Analisis Sentimen", "Klasifikasi Teks"])
     
