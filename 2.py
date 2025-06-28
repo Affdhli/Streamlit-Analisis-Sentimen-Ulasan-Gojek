@@ -89,7 +89,7 @@ def main():
                         lang='id',
                         country='id',
                         sort=Sort.MOST_RELEVANT,
-                        count=sample_size,
+                        count=8000,
                         filter_score_with=None
                     )
                     
