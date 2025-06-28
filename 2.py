@@ -144,7 +144,7 @@ def main():
             data = data[data['label'] != 'netral']
             
             # Preprocessing
-            data['processed_text'] = data['content'].apply(text)
+            data['processed_text'] = data['content'].apply(preprocess_text)
             
             # TF-IDF
             tfidf = TfidfVectorizer(max_features=3000)
