@@ -228,14 +228,3 @@ def main():
                     st.write("Teks asli:", text_input)
                     st.write("Setelah cleaning:", re.sub(r'[^\w\s]', '', str(text_input).lower()))
                     st.write("Setelah stopword removal & stemming:", processed_text)
-
-if __name__ == "__main__":
-    # Download NLTK resources
-    try:
-        nltk.data.find('tokenizers/punkt')
-        nltk.data.find('corpora/stopwords')
-    except:
-        nltk.download('punkt')
-        nltk.download('stopwords')
-    
-    main()
