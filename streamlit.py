@@ -122,7 +122,14 @@ elif app_mode == "Preprocessing":
                 data['case_folded'] = data['cleaned_text'].str.lower()
                 
                 # Tokenisasi
-                data['tokens'] = data['case_folded'].apply(word_tokenize)
+                def safe_tokenize(text):
+                        try:
+                            return word_tokenize(str(text))
+                        except Exception as e:
+                            st.warning(f"Error tokenizing: {str(e)}")
+                            return []
+                    
+                data['tokens'] = data['case_folded'].apply(safe_tokenize)
                 
                 # Stopword removal
                 data['filtered_tokens'] = data['tokens'].apply(remove_stopwords)
