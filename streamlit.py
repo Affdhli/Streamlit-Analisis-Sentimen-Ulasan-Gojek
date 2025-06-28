@@ -18,6 +18,7 @@ import seaborn as sns
 # Download NLTK resources
 nltk.download('punkt')
 nltk.download('stopwords')
+nltk.download('tokenize')
 
 # Set page config
 st.set_page_config(page_title="Analisis Sentimen Gojek", layout="wide")
