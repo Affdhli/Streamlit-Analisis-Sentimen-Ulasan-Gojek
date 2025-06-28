@@ -115,64 +115,82 @@ elif app_mode == "Preprocessing":
         
         if st.button("Mulai Preprocessing"):
             with st.spinner('Sedang memproses data...'):
-                # Cleaning
-                data['cleaned_text'] = data['content'].apply(clean_text)
-                
-                # Case folding
-                data['case_folded'] = data['cleaned_text'].str.lower()
-                
-                # Tokenisasi
-                def safe_tokenize(text):
+                try:
+                    # Cleaning - pastikan kolom 'content' ada dan berisi string
+                    if 'content' not in data.columns:
+                        raise ValueError("Kolom 'content' tidak ditemukan dalam data")
+                    
+                    data['cleaned_text'] = data['content'].apply(lambda x: clean_text(str(x)) if 'content' in data.columns else None
+                    
+                    # Case folding - pastikan kolom sudah dibuat
+                    if 'cleaned_text' not in data.columns:
+                        raise ValueError("Kolom 'cleaned_text' tidak ditemukan")
+                    data['case_folded'] = data['cleaned_text'].str.lower()
+                    
+                    # Tokenisasi - dengan penanganan error
+                    def safe_tokenize(text):
                         try:
                             return word_tokenize(str(text))
                         except Exception as e:
                             st.warning(f"Error tokenizing: {str(e)}")
                             return []
                     
-                data['tokens'] = data['case_folded'].apply(safe_tokenize)
-                
-                # Stopword removal
-                data['filtered_tokens'] = data['tokens'].apply(remove_stopwords)
-                
-                # Stemming
-                data['stemmed_tokens'] = data['filtered_tokens'].apply(stem_tokens)
-                
-                # Gabungkan tokens
-                data['processed_text'] = data['stemmed_tokens'].apply(lambda x: ' '.join(x))
-                
-                st.session_state.data = data
-                
-                st.success("Preprocessing selesai!")
-                
-                st.write("### Hasil Preprocessing")
-                st.dataframe(data[['content', 'processed_text', 'label']].head())
-                
-                # Tampilkan contoh preprocessing
-                st.write("### Contoh Tahapan Preprocessing")
-                sample_idx = st.slider("Pilih contoh data", 0, len(data)-1, 0)
-                sample = data.iloc[sample_idx]
-                
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    st.write("**Original Text:**")
-                    st.write(sample['content'])
+                    data['tokens'] = data['case_folded'].apply(safe_tokenize)
                     
-                    st.write("**Cleaned Text:**")
-                    st.write(sample['cleaned_text'])
+                    # Stopword removal
+                    data['filtered_tokens'] = data['tokens'].apply(remove_stopwords)
                     
-                    st.write("**Case Folded:**")
-                    st.write(sample['case_folded'])
+                    # Stemming
+                    data['stemmed_tokens'] = data['filtered_tokens'].apply(stem_tokens)
+                    
+                    # Gabungkan tokens
+                    data['processed_text'] = data['stemmed_tokens'].apply(lambda x: ' '.join(x) if x else '')
+                    
+                    # Hapus baris dengan teks kosong setelah preprocessing
+                    data = data[data['processed_text'].str.strip().astype(bool)]
+                    
+                    st.session_state.data = data
+                    
+                    st.success("Preprocessing selesai!")
+                    st.write(f"Jumlah data setelah preprocessing: {len(data)}")
+                    
+                    st.write("### Hasil Preprocessing")
+                    st.dataframe(data[['content', 'processed_text', 'label']].head())
+                    
+                    # Tampilkan contoh preprocessing
+                    st.write("### Contoh Tahapan Preprocessing")
+                    sample_idx = st.slider("Pilih contoh data", 0, len(data)-1, 0)
+                    
+                    if len(data) > 0:
+                        sample = data.iloc[sample_idx]
+                        
+                        col1, col2 = st.columns(2)
+                        
+                        with col1:
+                            st.write("**Original Text:**")
+                            st.write(sample['content'])
+                            
+                            st.write("**Cleaned Text:**")
+                            st.write(sample['cleaned_text'])
+                            
+                            st.write("**Case Folded:**")
+                            st.write(sample['case_folded'])
+                        
+                        with col2:
+                            st.write("**Tokens:**")
+                            st.write(sample['tokens'])
+                            
+                            st.write("**Filtered Tokens (no stopwords):**")
+                            st.write(sample['filtered_tokens'])
+                            
+                            st.write("**Stemmed Tokens:**")
+                            st.write(sample['stemmed_tokens'])
+                    else:
+                        st.warning("Tidak ada data yang tersisa setelah preprocessing")
                 
-                with col2:
-                    st.write("**Tokens:**")
-                    st.write(sample['tokens'])
-                    
-                    st.write("**Filtered Tokens (no stopwords):**")
-                    st.write(sample['filtered_tokens'])
-                    
-                    st.write("**Stemmed Tokens:**")
-                    st.write(sample['stemmed_tokens'])
+                except Exception as e:
+                    st.error(f"Terjadi error saat preprocessing: {str(e)}")
+                    st.error("Pastikan data yang di-scrap sudah benar dan mengandung kolom 'content'")
 
 # Halaman Training Model
 elif app_mode == "Training Model":
