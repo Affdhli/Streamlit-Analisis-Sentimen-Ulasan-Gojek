@@ -42,10 +42,10 @@ def clean_text(text):
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 
-def word_tokenize(text):
+def tokenize_text(text):
     # Memecah teks menjadi kata-kata
     return word_tokenize(text)
-
+    
 def remove_stopwords(tokens):
     stop_words = set(stopwords.words('indonesian'))
     return [word for word in tokens if word not in stop_words]
@@ -126,7 +126,7 @@ elif app_mode == "Preprocessing":
                 data['case_folded'] = data['cleaned_text'].str.lower()
                 
                 # Tokenisasi
-                data['tokens'] = data['case_folded'].apply(word_tokenize)
+                data['tokens'] = data['case_folded'].apply(tokenize_text)
                 
                 # Stopword removal
                 data['filtered_tokens'] = data['tokens'].apply(remove_stopwords)
