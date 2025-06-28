@@ -126,7 +126,7 @@ elif app_mode == "Preprocessing":
                 data['case_folded'] = data['cleaned_text'].str.lower()
                 
                 # Tokenisasi
-                data['tokens'] = data['case_folded'].apply(tokenize_text)
+                data['tokens'] = data['case_folded'].apply(word_tokenize)
                 
                 # Stopword removal
                 data['filtered_tokens'] = data['tokens'].apply(remove_stopwords)
